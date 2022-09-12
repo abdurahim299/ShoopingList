@@ -1,25 +1,33 @@
 package com.timesoft.shoopinglist.settings
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.timesoft.shoopinglist.databinding.FragmentSettingsBinding
+import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import com.timesoft.shoopinglist.R
+import com.timesoft.shoopinglist.billing.BillingManager
 
-class SettingsFragment : Fragment() {
-    private lateinit var binding: FragmentSettingsBinding
+class SettingsFragment : PreferenceFragmentCompat() {
+    private lateinit var removeAdsPref: Preference
+    private lateinit var bManager: BillingManager
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentSettingsBinding.inflate(layoutInflater, container, false)
-        return binding.root
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.settings_preference, rootKey)
+        init()
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() = SettingsFragment()
+    private fun init(){
+        bManager = BillingManager(activity as AppCompatActivity)
+        removeAdsPref = findPreference("remove_ads_key")!!
+        removeAdsPref.setOnPreferenceClickListener {
+            bManager.startConnection()
+            true
+        }
     }
+
+    override fun onDestroy() {
+        bManager.closeConnection()
+        super.onDestroy()
+    }
+
 }
