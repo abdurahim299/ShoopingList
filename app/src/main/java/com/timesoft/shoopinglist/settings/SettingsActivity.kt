@@ -1,11 +1,12 @@
-package com.timesoft.shoopinglist
+package com.timesoft.shoopinglist.settings
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.timesoft.shoopinglist.R
 
-class MainActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_settings)
     }
 }
